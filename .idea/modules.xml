@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HelloKotlin.iml" filepath="$PROJECT_DIR$/HelloKotlin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HelloKotlin.iml" filepath="$PROJECT_DIR$/.idea/modules/HelloKotlin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HelloKotlin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/HelloKotlin.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HelloKotlin.test.iml" filepath="$PROJECT_DIR$/.idea/modules/HelloKotlin.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.example.HelloKotlin.test.iml" filepath="$PROJECT_DIR$/.idea/modules/org.example.HelloKotlin.test.iml" />
     </modules>
   </component>
 </project>
