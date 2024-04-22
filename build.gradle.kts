@@ -1,32 +1,37 @@
 // For `KotlinCompile` task below
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.9.23" // Kotlin version to use
-    application // Application plugin. Also see 1️⃣ below the code
+    id("org.springframework.boot") version "3.2.2"
+    id("io.spring.dependency-management") version "1.1.4"
+    kotlin("jvm") version "1.9.22"
+    kotlin("plugin.spring") version "1.9.22"
+    kotlin("plugin.jpa") version "1.9.22"
 }
 
-group = "org.example" // A company name, for example, `org.jetbrains`
-version = "1.0-SNAPSHOT" // Version to assign to the built artifact
+group = "org.example"
+version = "1.0-SNAPSHOT"
 
-repositories { // Sources of dependencies. See 2️⃣
-    mavenCentral() // Maven Central Repository. See 3️⃣
+repositories {
+    mavenCentral()
 }
 
-dependencies { // All the libraries you want to use. See 4️⃣
-    // Copy dependencies' names after you find them in a repository
-    implementation("io.reactivex.rxjava3:rxkotlin:3.x.y")
-    testImplementation(kotlin("test")) // The Kotlin test library
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-mustache")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    runtimeOnly("com.h2database:h2")
+    runtimeOnly("org.springframework.boot:spring-boot-devtools")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
-tasks.test { // See 5️⃣
-    useJUnitPlatform() // JUnitPlatform for tests. See 6️⃣
+tasks.test {
+    useJUnitPlatform()
 }
 
-kotlin { // Extension for easy setup
-    jvmToolchain(17) // Target version of generated JVM bytecode. See 7️⃣
+kotlin {
+    jvmToolchain(17)
 }
 
-application {
-    mainClass.set("MainKt") // The main class of the application
-}
