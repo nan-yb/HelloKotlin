@@ -4,13 +4,23 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 class HelloController {
 
     @GetMapping("/")
-    fun hello(model : Model){
+    @ResponseBody
+    fun hello(model : Model) : Any{
         model["title"] = "Blog"
-        return "blog";
+
+        var modelTitle = model.getAttribute("title") as Any;
+        var title : String = ""
+
+        if(modelTitle is String){
+            title = modelTitle;
+        }
+
+        return title;
     }
 }
