@@ -1,14 +1,12 @@
 package com.example.hello
 
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
+import reactor.core.publisher.Flux
 import java.util.*
 
-//@SpringBootTest
-class HelloApplicationTests {
-
+class Example01 {
     @Test
-    fun contextLoads() {
+    fun `code1-1`(){
         var numbers : List<Int> = Arrays.asList(1 , 3 , 21 , 10 ,8 ,11);
 
         var sum = numbers.stream()
@@ -17,6 +15,15 @@ class HelloApplicationTests {
             .sum();
 
         println(sum);
+    }
+
+    @Test
+    fun `code2-5`(){
+        Flux
+            .just(1 ,2 ,3 ,4 ,5 ,6)
+            .filter{n-> n%2 ==0}
+            .map{n -> n*2}
+            .subscribe{println()}
     }
 
 }
