@@ -3,6 +3,8 @@ package com.example.hello.reactor;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,9 +15,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.time.Duration;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class Example {
+
+    Logger log = LoggerFactory.getLogger(Example.class);
 
     @Test
     void Example5_1() {
@@ -82,5 +88,7 @@ public class Example {
         .collectList()
         .subscribe(planets -> System.out.println(planets));
     }
+
+
 
 }
