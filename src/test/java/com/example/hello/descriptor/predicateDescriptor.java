@@ -1,7 +1,7 @@
 package com.example.hello.descriptor;
 
-import com.example.hello.CryptoCurrency;
-import com.example.hello.SampleData;
+import com.example.hello.descriptor.exam.CryptoCurrency;
+import com.example.hello.descriptor.exam.SampleData;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -47,6 +47,10 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
 
+
+    compileOnly ("org.projectlombok:lombok")
+    annotationProcessor ("org.springframework.boot:spring-boot-configuration-processor")
+    annotationProcessor ("org.projectlombok:lombok")
 }
 
 

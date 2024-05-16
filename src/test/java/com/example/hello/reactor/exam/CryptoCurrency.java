@@ -1,4 +1,4 @@
-package com.example.hello;
+package com.example.hello.reactor.exam;
 
 public class CryptoCurrency {
     private String name;

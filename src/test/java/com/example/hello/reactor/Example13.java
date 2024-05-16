@@ -1,28 +1,28 @@
 package com.example.hello.reactor;
 
 
-import io.reactivex.internal.util.BackpressureHelper;
-import jakarta.persistence.Tuple;
+import org.assertj.core.api.AbstractBooleanAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Base64Utils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
-import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
 import reactor.test.StepVerifierOptions;
+import reactor.test.publisher.PublisherProbe;
+import reactor.test.publisher.TestPublisher;
 import reactor.test.scheduler.VirtualTimeScheduler;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName(
         "Testing 예제"
@@ -194,6 +194,101 @@ public class Example13 {
 //                    .transformDeferredContextual((mono , ctx) -> mono.map(notUse -> ctx.get("secretMessage")));
 //        }
 //    }
+
+    @Test
+    public void Example13_16(){
+        StepVerifier.create(getCapitalizedCountry(Flux.just("korea" , "england" , "canada" , "india")))
+                .expectSubscription()
+                .recordWith(ArrayList::new)
+                .thenConsumeWhile(country -> !country.isEmpty())
+                .consumeRecordedWith(countries -> {
+                    AbstractBooleanAssert<?> result = assertThat(
+                            countries.stream()
+                                    .allMatch(country ->Character.isUpperCase(country.charAt(0)))
+                    );
+                })
+                .expectComplete()
+                .verify();
+    }
+
+    @Test
+    public void Example13_17(){
+        StepVerifier
+                .create(getCapitalizedCountry(Flux.just("korea" , "england" , "canada" , "india")))
+                .expectSubscription()
+                .recordWith(ArrayList::new)
+                .thenConsumeWhile(country -> !country.isEmpty())
+                .expectRecordedMatches(countries -> countries.stream().allMatch(country -> Character.isUpperCase(country.charAt(0))))
+                .expectComplete()
+                .verify();
+    }
+
+    @Test
+    @DisplayName("TestPublisher [정상 동작]")
+    public void Example13_18(){
+        TestPublisher<Integer> source = TestPublisher.create();
+
+        StepVerifier.create(divideByTwo(source.flux()))
+                .expectSubscription()
+                .then(()-> source.emit(2,4,6,8,10))
+                .expectNext(1,2,3,4)
+                .expectError()
+                .verify();
+    }
+
+    @Test
+    @DisplayName("TestPublisher [실패 동작]")
+    public void Example13_19(){
+//        TestPublisher<Integer> source = TestPublisher.create();
+
+        TestPublisher<Integer> source = TestPublisher.createNoncompliant(TestPublisher.Violation.ALLOW_NULL);
+
+        StepVerifier.create(divideByTwo(source.flux()))
+                .expectSubscription()
+                .then(()-> {
+                        getDataSource().stream().forEach(data -> source.next(data));
+                        source.complete();
+                    }
+                )
+                .expectNext(1,2,3,4)
+                .expectError()
+                .verify();
+    }
+
+    @Test
+    public void Example13_20(){
+        PublisherProbe<String> probe = PublisherProbe.of(supplyStandbyPower());
+
+        StepVerifier.create(processTask(supplyMainPower() , probe.mono()))
+                .expectSubscription()
+                .verifyComplete();
+
+        probe.assertWasSubscribed();
+        probe.assertWasRequested();
+        probe.assertWasNotCancelled();
+
+    }
+
+    public static Mono<String> processTask(Mono<String> main , Mono<String> standby) {
+        return main.flatMap(message -> Mono.just(message)).switchIfEmpty(standby);
+    }
+
+    public static Mono<String> supplyMainPower(){
+        return Mono.empty();
+    }
+
+    public static Mono supplyStandbyPower(){
+        return Mono.just(" supply Standby Power");
+    }
+
+    private static List<Integer> getDataSource(){
+        return Arrays.asList(2,4,6,8,null);
+    }
+
+
+    public static Flux<String> getCapitalizedCountry(Flux<String> source){
+        return source.map(country -> country.substring(0,1).toUpperCase() + country.substring(1));
+    }
 
     static class TimeBasedTestExample {
         public static Flux<Tuple2<String, Integer>> getCOVID19count(Flux<Long> source) {
