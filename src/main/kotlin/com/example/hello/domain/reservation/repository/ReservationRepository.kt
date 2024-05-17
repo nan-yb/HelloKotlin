@@ -1,6 +1,6 @@
-package com.example.hello.repository
+package com.example.hello.domain.reservation.repository
 
-import com.example.hello.entity.Reservation
+import com.example.hello.domain.reservation.entity.Reservation
 import org.springframework.data.r2dbc.repository.R2dbcRepository
 import org.springframework.stereotype.Repository
 

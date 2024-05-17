@@ -1,4 +1,4 @@
-package com.example.hello.entity
+package com.example.hello.domain.reservation.entity
 
 import org.springframework.data.annotation.Id
 

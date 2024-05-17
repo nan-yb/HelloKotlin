@@ -1,8 +1,8 @@
-package com.example.hello.service
+package com.example.hello.domain.reservation.service
 
-import com.example.hello.controller.HelloController
-import com.example.hello.entity.Reservation
-import com.example.hello.repository.ReservationRepository
+import com.example.hello.domain.reservation.controller.HelloController
+import com.example.hello.domain.reservation.entity.Reservation
+import com.example.hello.domain.reservation.repository.ReservationRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -12,7 +12,7 @@ import java.util.Optional
 @Service
 class ReservationService (
     @Autowired val reservationRepository: ReservationRepository,
-    @Autowired private val redissonService: RedissonService
+//    @Autowired private val redissonService: RedissonService
 ) {
 
     val log = LoggerFactory.getLogger(ReservationService::class.java)
