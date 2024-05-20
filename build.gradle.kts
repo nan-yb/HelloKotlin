@@ -22,6 +22,7 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-webflux")
     implementation ("org.springframework.boot:spring-boot-starter-validation")
     implementation ("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation ("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
     compileOnly ("org.projectlombok:lombok")
     annotationProcessor ("org.projectlombok:lombok")
     testImplementation ("org.springframework.boot:spring-boot-starter-test")
@@ -31,6 +32,8 @@ dependencies {
     runtimeOnly ("io.r2dbc:r2dbc-h2")
     implementation ("com.google.code.gson:gson")
     implementation ("org.apache.commons:commons-lang3:3.12.0")
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
@@ -43,7 +46,7 @@ dependencies {
 //    implementation("org.springframework.boot:spring-boot-starter-web")
 //    implementation("org.springframework.boot:spring-boot-starter-validation")
 //    implementation("io.projectreactor:reactor-test")
-//    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
 //
 //    runtimeOnly("io.r2dbc:r2dbc-h2")
 //    implementation("org.mapstruct:mapstruct:1.5.1.Final")
@@ -73,10 +76,9 @@ dependencies {
 //    annotationProcessor ("org.projectlombok:lombok")
 }
 
-
-
 tasks.test {
     useJUnitPlatform()
+    jvmArgs("-Xshare:off")
 }
 
 kotlin {

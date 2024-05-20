@@ -20,7 +20,6 @@ import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.ConnectableFlux;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.math.MathFlux;
 import reactor.util.function.Tuples;
 
 import java.net.URI;
@@ -300,21 +299,21 @@ public class Example14_2 {
 
     @Test
     public void Example14_54() throws InterruptedException {
-        Flux.fromIterable(SampleData.monthlyBookSales2021)
-                .window(3)
-                .flatMap(flux -> MathFlux.sumInt(flux))
-                .subscribe(new BaseSubscriber<>() {
-                    @Override
-                    protected void hookOnSubscribe(Subscription subscription) {
-                        subscription.request(2);
-                    }
-
-                    @Override
-                    protected void hookOnNext(Integer value) {
-                        log.info("# onNext: {}", value);
-                        request(2);
-                    }
-                });
+//        Flux.fromIterable(SampleData.monthlyBookSales2021)
+//                .window(3)
+//                .flatMap(flux -> MathFlux.sumInt(flux))
+//                .subscribe(new BaseSubscriber<>() {
+//                    @Override
+//                    protected void hookOnSubscribe(Subscription subscription) {
+//                        subscription.request(2);
+//                    }
+//
+//                    @Override
+//                    protected void hookOnNext(Integer value) {
+//                        log.info("# onNext: {}", value);
+//                        request(2);
+//                    }
+//                });
     }
 
     @Test
