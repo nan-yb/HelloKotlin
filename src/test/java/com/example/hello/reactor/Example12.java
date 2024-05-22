@@ -103,8 +103,8 @@ public class Example12 {
         Flux<Integer> plusSource =plus(multiplySource).checkpoint();
 
         plusSource.subscribe(
-                data -> log.info("# onNext : {}" , data),
-                error -> log.error("# onError :" , error)
+            data -> log.info("# onNext : {}" , data),
+            error -> log.error("# onError :" , error)
         );
     }
 

@@ -37,7 +37,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    
+    implementation("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
 //    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
 //    implementation("org.springframework.boot:spring-boot-starter-webflux")
 //    implementation("org.springframework.boot:spring-boot-starter-data-jpa")

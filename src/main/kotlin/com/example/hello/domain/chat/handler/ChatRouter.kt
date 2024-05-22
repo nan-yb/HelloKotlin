@@ -30,10 +30,8 @@ class ChatRouter (
     @Bean
     fun routeChat(handler: ChatHandler): RouterFunction<*> {
         return RouterFunctions.route()
-            .POST("/chats") { request: ServerRequest? -> handler.createChats(request!!) }
-//            .PATCH("/chats/{chat-id}") { request: ServerRequest? -> handler.updateBook(request!!) }
-//            .GET("/chats") { request: ServerRequest? -> handler.getBooks(request!!) }
-//            .GET("/chats/{chat-id}") { request: ServerRequest? -> handler.getBook(request!!) }
+            .POST("/chats", handler::createChats)
+            .GET("/chats/{room-id}"  , handler::findChatsByRoomId)
 //            .GET("/chats/test/exampleWebClient01") { serverRequest: ServerRequest? ->
 //                handler.exampleWebClient01(
 //                    serverRequest
@@ -55,10 +53,9 @@ class ChatRouter (
     @Bean
     fun routeRoom(handler: RoomHandler): RouterFunction<*> {
         return RouterFunctions.route()
-            .POST("/rooms") { request: ServerRequest? -> handler.createRooms(request!!) }
-//            .PATCH("/rooms/{room-id}") { request: ServerRequest? -> handler.updateBook(request!!) }
-//            .GET("/rooms") { request: ServerRequest? -> handler.getBooks(request!!) }
-//            .GET("/rooms/{room-id}") { request: ServerRequest? -> handler.getBook(request!!) }
+            .GET("/room/{user-id}", handler::getRooms)
+            .POST("/room", handler::createRooms)
+            .DELETE("/room/{room-id}" , handler::deleteRooms)
             .build()
     }
 }

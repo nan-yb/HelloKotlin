@@ -4,11 +4,13 @@ import com.example.hello.domain.chat.dto.ChatDTO
 import com.example.hello.domain.chat.entity.Chat
 import com.example.hello.domain.chat.service.ChatService
 import lombok.extern.slf4j.Slf4j
+import org.bson.types.ObjectId
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.body
 import org.springframework.web.util.UriBuilder
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -30,10 +32,18 @@ class ChatHandler(
             .flatMap { chat: ChatDTO.Chat -> chatService.createChat(Chat.of(chat)) }
             .flatMap { chat: Chat ->
                 ServerResponse
-                    .created(URI.create("/chats/" + chat.id))
+//                    .created(URI.create("/chats/" + chat.id))
+                    .ok()
                     .build()
             }
     }
+
+    fun findChatsByRoomId(request: ServerRequest) : Mono<ServerResponse> {
+        val roomId = request.pathVariable("room-id")
+        val chats : Flux<Chat> = chatService.findChatsByRoomId(ObjectId(roomId));
+        return ServerResponse.ok().body(chats);
+    }
+
 //
 //    fun updateBook(request: ServerRequest): Mono<ServerResponse> {
 //        val bookId = request.pathVariable("book-id").toLong()

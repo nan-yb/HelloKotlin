@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 
 @Document(collection = "chat")
-data class Chat (
+data class Chat constructor(
     @Id
     val id: ObjectId? = null,
     var senderId : Number = 0,
@@ -18,7 +18,14 @@ data class Chat (
     var isRead :Boolean = false,
     var createdAt: LocalDateTime? = null
 ) {
+    constructor(roomId : ObjectId , msg : String) : this(
+        null, 0 , roomId , msg , false , LocalDateTime.now());
+
     companion object {
+        fun from(chat: ChatDTO.Chat): Chat {
+            return Chat(null , chat.senderId ,  chat.roomId , chat.msg , chat.isRead , chat.createdAt)
+        }
+
         fun of(chat: ChatDTO.Chat): Chat {
             return Chat(null , chat.senderId ,  chat.roomId , chat.msg , chat.isRead , chat.createdAt)
         }

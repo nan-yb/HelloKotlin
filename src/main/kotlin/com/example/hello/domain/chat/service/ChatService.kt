@@ -5,6 +5,7 @@ import com.example.hello.domain.chat.entity.Room
 import com.mongodb.client.result.UpdateResult
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder
 import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
@@ -18,11 +19,12 @@ import java.time.LocalDateTime
 
 @Service
 class ChatService @Autowired constructor(
-    val mongoTemplate: ReactiveMongoTemplate
+    val mongoTemplate: ReactiveMongoTemplate ,
 ){
 
     /**채팅 내역 불러오기 */
     fun findChatsByRoomId(roomId: ObjectId?): Flux<Chat> {
+
         return mongoTemplate.find(
             Query.query(Criteria.where("roomId").`is`(roomId))
                 .with(Sort.by(Sort.Direction.ASC, "createdAt")), Chat::class.java
