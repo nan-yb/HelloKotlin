@@ -22,12 +22,10 @@ data class Chat constructor(
         null, 0 , roomId , msg , false , LocalDateTime.now());
 
     companion object {
-        fun from(chat: ChatDTO.Chat): Chat {
-            return Chat(null , chat.senderId ,  chat.roomId , chat.msg , chat.isRead , chat.createdAt)
+        fun createChat(msg: String , roomId : String): Chat {
+            val chat = Chat(ObjectId(roomId) , msg);
+            return chat;
         }
 
-        fun of(chat: ChatDTO.Chat): Chat {
-            return Chat(null , chat.senderId ,  chat.roomId , chat.msg , chat.isRead , chat.createdAt)
-        }
     }
 }

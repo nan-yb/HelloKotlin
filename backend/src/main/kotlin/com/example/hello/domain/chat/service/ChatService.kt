@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Update
+import org.springframework.data.mongodb.repository.Tailable
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -23,6 +24,7 @@ class ChatService @Autowired constructor(
 ){
 
     /**채팅 내역 불러오기 */
+    @Tailable
     fun findChatsByRoomId(roomId: ObjectId?): Flux<Chat> {
 
         return mongoTemplate.find(

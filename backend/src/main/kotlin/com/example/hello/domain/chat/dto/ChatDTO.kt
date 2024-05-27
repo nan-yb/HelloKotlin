@@ -11,12 +11,11 @@ import java.time.LocalDateTime
 
 class ChatDTO {
 
-    @AllArgsConstructor
     @Getter
     class Chat {
         val _id: @NotBlank ObjectId? = null
         var senderId: @NotBlank Number = 0
-        val roomId: @NotBlank ObjectId? = null
+        val roomId: @NotBlank String? = null
         val msg: @NotBlank String? = null
         val isRead: @NotBlank Boolean = false
         val createdAt: @NotBlank LocalDateTime? = null

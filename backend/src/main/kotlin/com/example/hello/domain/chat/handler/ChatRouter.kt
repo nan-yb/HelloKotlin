@@ -1,23 +1,12 @@
 package com.example.hello.domain.chat.handler
 
-import com.example.hello.domain.book.v10.*
-import com.example.hello.domain.book.v10.BookRouter
-import com.example.hello.domain.chat.dto.ChatDTO
-import com.example.hello.domain.chat.entity.Chat
+import com.example.hello.domain.book.v10.ChatHandler
 import com.example.hello.domain.chat.service.ChatService
 import lombok.RequiredArgsConstructor
-import lombok.extern.slf4j.Slf4j
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Component
-import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.server.*
-import org.springframework.web.util.UriBuilder
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
-import java.time.Duration
+import org.springframework.web.reactive.function.server.RouterFunction
+import org.springframework.web.reactive.function.server.RouterFunctions
 
 
 @Configuration("ChatHandler")
@@ -31,6 +20,7 @@ class ChatRouter (
         return RouterFunctions.route()
             .POST("/chats", handler::createChats)
             .GET("/chats/{room-id}"  , handler::findChatsByRoomId)
+
 //            .GET("/chats/test/exampleWebClient01") { serverRequest: ServerRequest? ->
 //                handler.exampleWebClient01(
 //                    serverRequest

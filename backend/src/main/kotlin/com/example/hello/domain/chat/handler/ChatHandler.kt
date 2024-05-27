@@ -14,6 +14,7 @@ import org.springframework.web.reactive.function.server.body
 import org.springframework.web.util.UriBuilder
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.core.scheduler.Schedulers
 import reactor.util.function.Tuple2
 import reactor.util.function.Tuples
 import java.net.URI
@@ -28,20 +29,17 @@ class ChatHandler(
     private val LOCAL_URL = "http://localhost:8080"
 
     fun createChats(request: ServerRequest): Mono<ServerResponse> {
-        return request.bodyToMono(ChatDTO.Chat::class.java) //                .doOnNext(post -> validator.validate(post))
-            .flatMap { chat: ChatDTO.Chat -> chatService.createChat(Chat.of(chat)) }
-            .flatMap { chat: Chat ->
-                ServerResponse
-//                    .created(URI.create("/chats/" + chat.id))
-                    .ok()
-                    .build()
-            }
+        return request.bodyToMono(ChatDTO.Chat::class.java)
+            .doOnNext{chat: ChatDTO.Chat -> println("${chat.msg.toString()} , ${chat.roomId.toString()}") }
+            .flatMap { chat: ChatDTO.Chat ->
+                ServerResponse.ok().body(chatService.createChat(Chat.createChat(chat.msg!! , chat.roomId!!)))
+             }
     }
 
     fun findChatsByRoomId(request: ServerRequest) : Mono<ServerResponse> {
-        val roomId = request.pathVariable("room-id")
-        val chats : Flux<Chat> = chatService.findChatsByRoomId(ObjectId(roomId));
-        return ServerResponse.ok().body(chats);
+        val roomId = request.pathVariable("room-id").toString()
+        val chats : Flux<Chat> = chatService.findChatsByRoomId(ObjectId(roomId)).subscribeOn(Schedulers.boundedElastic());
+        return ServerResponse.ok().body(chats)  ;
     }
 
 //
