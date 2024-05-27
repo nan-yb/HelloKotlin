@@ -1,28 +1,19 @@
-import { useEffect, useState } from 'react'
+import ChatContainer from './container/ChatContainer';
+import RoomContainer from './container/RoomContainer'
+
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
-
-  const [room , setRooms] =  useState();
-  
-  useEffect(()=>{
-    getRooms()
-  } , [])
-
-  const getRooms = async () => {
-    const response = await fetch('http://localhost:8080/room/1' , {
-      method : "GET",
-    });
-    const jsonData = response.json();
-    console.log(jsonData)
-
-    setRooms(jsonData)
-  }
-
   return (
     <>
-      <div>
-        {room}
-      </div>  
+      <Routes>
+        <Route path="/" element={<RoomContainer/>} />
+        <Route path="/chat" element={<ChatContainer/>} />
+      </Routes>
+
+      {/* <div>
+        <ChatContainer/>
+      </div>   */}
     </>
   )
 }
