@@ -1,5 +1,7 @@
 // fetch 함수
-export const fetchApi = async (url, method = 'GET', fetchData, auth = false) => {
+export const fetchApi = async (apiUrl, method = 'GET', fetchData, auth = false) => {
+  const url = "http:localhost:8080/" + apiUrl;
+
   try {
     if (method === 'GET') {
       const res = await fetch(url, {
