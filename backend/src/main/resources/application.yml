@@ -1,0 +1,48 @@
+spring :
+  sql:
+    init:
+      schema-locations: classpath*:db/h2/schema.sql
+      data-locations : classpath*:db/h2/data.sql
+
+  data:
+    mongodb:
+      uri: mongodb://admin:pass@localhost:27017
+      database: yb
+#  r2dbc:
+#    url: r2dbc:mysql://localhost:3306/db-master?useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
+#    username: yb
+#    password: 1234
+#    pool:
+#      initial-size: 10
+#      max-size: 10
+#      max-idle-time: 30m
+#      validation-query: SELECT 1
+
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: DEBUG
+    root : ERROR
+
+
+
+
+
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/db-master?useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
+#    username: yb
+#    password: 1234
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    hikari:
+#      connection-test-query: SELECT 1
+#  jpa:
+#    show-sql: true
+#    generate-ddl: false
+#    database: mysql
+#    hibernate:
+#      ddl-auto: validate
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL57Dialect
+#        format_sql: true
