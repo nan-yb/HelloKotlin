@@ -19,7 +19,6 @@ class ChatRouter (
     fun routeChat(handler: ChatHandler): RouterFunction<*> {
         return RouterFunctions.route()
             .POST("/chats", handler::createChats)
-            .GET("/chats/{room-id}"  , handler::findChatsByRoomId)
 
 //            .GET("/chats/test/exampleWebClient01") { serverRequest: ServerRequest? ->
 //                handler.exampleWebClient01(

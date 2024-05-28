@@ -1,8 +1,8 @@
 const Chat = ({chat}) =>{
 
   return (
-    <div>
-      
+    <div style={{paddingLeft : '1em'}}>
+      <span>{chat.senderId} : {chat.msg}</span>
     </div>
   )
 

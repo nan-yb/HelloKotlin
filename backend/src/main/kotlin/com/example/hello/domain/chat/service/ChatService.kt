@@ -1,5 +1,6 @@
 package com.example.hello.domain.chat.service
 
+import com.example.hello.domain.chat.dto.ChatDTO
 import com.example.hello.domain.chat.entity.Chat
 import com.example.hello.domain.chat.entity.Room
 import com.mongodb.client.result.UpdateResult
@@ -25,11 +26,10 @@ class ChatService @Autowired constructor(
 
     /**채팅 내역 불러오기 */
     @Tailable
-    fun findChatsByRoomId(roomId: ObjectId?): Flux<Chat> {
-
+    fun findChatsByRoomId(roomId: ObjectId?): Flux<ChatDTO.Chat> {
         return mongoTemplate.find(
             Query.query(Criteria.where("roomId").`is`(roomId))
-                .with(Sort.by(Sort.Direction.ASC, "createdAt")), Chat::class.java
+                .with(Sort.by(Sort.Direction.ASC, "createdAt")), ChatDTO.Chat::class.java
         )
     }
 

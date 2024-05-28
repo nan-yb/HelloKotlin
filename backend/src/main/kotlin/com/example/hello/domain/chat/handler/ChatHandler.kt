@@ -36,10 +36,10 @@ class ChatHandler(
              }
     }
 
-    fun findChatsByRoomId(request: ServerRequest) : Mono<ServerResponse> {
+    fun findChatsByRoomId(request: ServerRequest) : Flux<ChatDTO.Chat> {
         val roomId = request.pathVariable("room-id").toString()
-        val chats : Flux<Chat> = chatService.findChatsByRoomId(ObjectId(roomId)).subscribeOn(Schedulers.boundedElastic());
-        return ServerResponse.ok().body(chats)  ;
+        val chats : Flux<ChatDTO.Chat> = chatService.findChatsByRoomId(ObjectId(roomId)).subscribeOn(Schedulers.boundedElastic());
+        return chats;
     }
 
 //
