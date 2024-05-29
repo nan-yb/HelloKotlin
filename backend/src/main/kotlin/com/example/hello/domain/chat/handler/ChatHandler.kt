@@ -5,6 +5,7 @@ import com.example.hello.domain.chat.entity.Chat
 import com.example.hello.domain.chat.service.ChatService
 import lombok.extern.slf4j.Slf4j
 import org.bson.types.ObjectId
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
@@ -36,10 +37,12 @@ class ChatHandler(
              }
     }
 
-    fun findChatsByRoomId(request: ServerRequest) : Flux<ChatDTO.Chat> {
+    fun findChatsByRoomId(request: ServerRequest) : Mono<ServerResponse> {
         val roomId = request.pathVariable("room-id").toString()
-        val chats : Flux<ChatDTO.Chat> = chatService.findChatsByRoomId(ObjectId(roomId)).subscribeOn(Schedulers.boundedElastic());
-        return chats;
+        val chats : Flux<Chat> = chatService.findChatsByRoomId(ObjectId(roomId)).subscribeOn(Schedulers.boundedElastic());
+        return ServerResponse.ok()
+            .contentType(MediaType.TEXT_EVENT_STREAM)
+            .body(chats);
     }
 
 //

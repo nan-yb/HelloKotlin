@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import Room from "../component/Room";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { fetchApi } from "../utils/fetchUtils";
 
 const RoomContainer = () => {
-  
-  const [rooms , setRooms] =  useState();
+  const [rooms , setRooms] =  useState([]);
   const navigate = useNavigate();
   
   useEffect(()=>{
@@ -12,12 +12,10 @@ const RoomContainer = () => {
   } , [])
 
   const getRooms = async () => {
-    const response = await fetch('http://localhost:8080/room/1' , {
-      method : "GET",
-    });
+    const response = await fetchApi(`/rooms`);
 
-    const data = await response.json();
-    setRooms(data)
+    console.log(response)
+    // setRooms(data)
   }
 
   const onClickJoinButton = (e , value) =>{

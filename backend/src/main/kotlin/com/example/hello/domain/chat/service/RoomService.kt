@@ -22,8 +22,17 @@ class RoomService @Autowired constructor(
     val mongoTemplate: ReactiveMongoTemplate
 ){
 
+    fun findAllList() : Flux<RoomResponseDTO> {
+        return mongoTemplate.find(
+            Query.query(
+                Criteria.where("_id").exists(true)
+            )
+            .with(Sort.by(Sort.Direction.DESC, "updatedAt")), RoomResponseDTO::class.java , "room"
+        )
+    }
+
     /**채팅방 목록 마지막 대화 순서대로 불러오기 */
-    fun findListByUserId(userId: Int?): Flux<RoomResponseDTO> {
+    fun findListByUserId(userId: String?): Flux<RoomResponseDTO> {
         return mongoTemplate.find(
             Query.query(
                 Criteria.where("users.userId").`is`(userId)

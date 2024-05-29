@@ -1,9 +1,6 @@
 const Room = ({rooms , onClickJoinButton}) => {
 
-  if(!rooms || rooms.length == 0) {
-    return <></>
-  }
-
+  
   return (
     <div>
       {rooms.map((i) => {
@@ -25,6 +22,10 @@ const Room = ({rooms , onClickJoinButton}) => {
           </div>
         )
       })}
+
+      <div>
+        채팅방 만들기
+      </div>
     </div>
 
   )

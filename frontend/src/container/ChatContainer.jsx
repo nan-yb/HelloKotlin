@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import Chat from "../component/Chat";
 import { fetchApi } from "../utils/fetchUtils";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const chatStyle={
   margin : 'auto' ,
@@ -22,16 +22,34 @@ const chatInputStyle = {
 const ChatContainer = () =>{
   const [searchParams, setSearchParams] = useSearchParams();
   const [inputValue , setInputValue] = useState();
-  const [ chats , setChats ] = useState([]);
+  const [isStreaming , setIsStreaming]  = useState(false);
+  const chatDiv = useRef();
   const roomId = searchParams.get("roomId")
 
   useEffect(()=>{
-    getChatsByRoomId(roomId)
-  } , [roomId])
+    const eventSource = new EventSource(`http://localhost:8080/chats/${roomId}`);
+    eventSource.addEventListener('message', (event) => {
+      const {data} = event;
+      const chat = JSON.parse(data);
+      createHtml(chat)
+    });
+  
+    eventSource.onerror = () => {
+      //에러 발생시 할 동작
+      eventSource.close(); //연결 끊기
+    };
+    
+    return () => {
+      eventSource.close();
+    };
+  } , [])
 
-  const getChatsByRoomId = async (roomId) => {
-    const data = await fetchApi(`/chats/${roomId}`);
-    // setChats(data);
+  const createHtml = (chat) =>{
+    const tmp = document.createElement('div')
+    tmp.innerHTML = `
+      <span>${chat.senderId} : ${chat.msg}</span>
+    `
+    chatDiv.current.append(tmp)
   }
 
   const onChange= (e) => {
@@ -47,18 +65,16 @@ const ChatContainer = () =>{
     }
 
     await fetchApi(`/chats` , "POST" , data);
+
+    setInputValue('')
   }
 
   if(!roomId) return;
 
   return (
     <container>
-      <div style={chatStyle}>
-        {
-          chats && chats.map((i)=>{
-            return <Chat chat={i}/>
-          })
-        }
+      <div style={chatStyle} ref={chatDiv}>
+        {/*  */}
       </div>
 
       <div style={chatInputStyle}>

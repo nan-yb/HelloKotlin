@@ -3,6 +3,7 @@ package com.example.hello.domain.chat.service
 import com.example.hello.domain.chat.dto.ChatDTO
 import com.example.hello.domain.chat.entity.Chat
 import com.example.hello.domain.chat.entity.Room
+import com.example.hello.domain.chat.repository.ChatRepository
 import com.mongodb.client.result.UpdateResult
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,15 +23,16 @@ import java.time.LocalDateTime
 @Service
 class ChatService @Autowired constructor(
     val mongoTemplate: ReactiveMongoTemplate ,
+    val chatRepository : ChatRepository
 ){
 
     /**채팅 내역 불러오기 */
-    @Tailable
-    fun findChatsByRoomId(roomId: ObjectId?): Flux<ChatDTO.Chat> {
-        return mongoTemplate.find(
-            Query.query(Criteria.where("roomId").`is`(roomId))
-                .with(Sort.by(Sort.Direction.ASC, "createdAt")), ChatDTO.Chat::class.java
-        )
+    fun findChatsByRoomId(roomId: ObjectId): Flux<Chat> {
+        return chatRepository.findChatsByRoomId(roomId);
+//        val chatList : Flux<Chat> = mongoTemplate.find(
+//            Query.query(Criteria.where("roomId").`is`(roomId))
+//                .with(Sort.by(Sort.Direction.ASC, "createdAt")), Chat::class.java
+//        )
     }
 
     /**채팅 전송 */

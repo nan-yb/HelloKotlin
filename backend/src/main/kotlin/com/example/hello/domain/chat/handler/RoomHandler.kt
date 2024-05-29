@@ -19,14 +19,17 @@ class RoomHandler(
 
     fun createRooms(request: ServerRequest): Mono<ServerResponse> {
         return request.bodyToMono(ChatDTO.Room::class.java) //                .doOnNext(post -> validator.validate(post))
-            .flatMap { room: ChatDTO.Room -> roomService.createChatRoom(Room.createRoom(room.title!!)) }
-            .flatMap { room: Room ->
-                ServerResponse.ok().build();
-            }
+            .flatMap { room: ChatDTO.Room -> ServerResponse.ok().body(roomService.createChatRoom(Room.createRoom(room.title!!))) }
     }
 
-    fun getRooms(request: ServerRequest): Mono<ServerResponse> {
-        val userId = request.pathVariable("user-id").toInt()
+
+    fun getAllRooms(request: ServerRequest): Mono<ServerResponse> {
+        val rooms : Flux<RoomResponseDTO> = roomService.findAllList();
+        return ServerResponse.ok().body(rooms);
+    }
+
+    fun getRoomsByUserId(request: ServerRequest): Mono<ServerResponse> {
+        val userId = request.pathVariable("user-id").toString()
         val rooms : Flux<RoomResponseDTO> = roomService.findListByUserId(userId);
         return ServerResponse.ok().body(rooms);
     }
