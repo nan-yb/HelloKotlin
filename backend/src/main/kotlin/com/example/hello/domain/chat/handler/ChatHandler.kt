@@ -6,20 +6,15 @@ import com.example.hello.domain.chat.service.ChatService
 import lombok.extern.slf4j.Slf4j
 import org.bson.types.ObjectId
 import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
-import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.body
-import org.springframework.web.util.UriBuilder
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
 import reactor.util.function.Tuple2
 import reactor.util.function.Tuples
-import java.net.URI
-import java.time.Duration
 
 @Slf4j
 @Component
@@ -33,7 +28,7 @@ class ChatHandler(
         return request.bodyToMono(ChatDTO.Chat::class.java)
             .doOnNext{chat: ChatDTO.Chat -> println("${chat.msg.toString()} , ${chat.roomId.toString()}") }
             .flatMap { chat: ChatDTO.Chat ->
-                ServerResponse.ok().body(chatService.createChat(Chat.createChat(chat.msg!! , chat.roomId!!)))
+                ServerResponse.ok().body(chatService.createChat(Chat.createChat(chat.msg!! , chat.roomId!! , chat.senderId!!)))
              }
     }
 

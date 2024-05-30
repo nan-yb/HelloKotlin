@@ -1,6 +1,5 @@
-const Room = ({rooms , onClickJoinButton}) => {
 
-  
+const Rooms = ({rooms , onClickJoinButton}) => {
   return (
     <div>
       {rooms.map((i) => {
@@ -22,13 +21,9 @@ const Room = ({rooms , onClickJoinButton}) => {
           </div>
         )
       })}
-
-      <div>
-        채팅방 만들기
-      </div>
     </div>
 
   )
 }
 
-export default Room;
+export default Rooms;

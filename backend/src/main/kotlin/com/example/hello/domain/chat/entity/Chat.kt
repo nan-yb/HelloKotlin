@@ -12,20 +12,21 @@ import java.time.LocalDateTime
 data class Chat constructor(
     @Id
     val id: ObjectId? = null,
-    var senderId : Number = 0,
+    var senderId : ObjectId? = null,
     var roomId: ObjectId? = null,
     var msg: String? = null,
     var isRead :Boolean = false,
     var createdAt: LocalDateTime? = null
 ) {
-    constructor(roomId : ObjectId , msg : String) : this(
-        null, 0 , roomId , msg , false , LocalDateTime.now());
+    constructor(roomId : ObjectId , msg : String , user: ObjectId) : this(
+        null,  user , roomId , msg , false , LocalDateTime.now());
 
     companion object {
-        fun createChat(msg: String , roomId : String): Chat {
-            val chat = Chat(ObjectId(roomId) , msg);
+        fun createChat(msg: String , roomId : String , senderId: String): Chat {
+            val chat = Chat(ObjectId(roomId) , msg , ObjectId(senderId));
             return chat;
         }
-
     }
+
+
 }

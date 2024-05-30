@@ -45,21 +45,21 @@ class ChatWebClient {
     }
 
     private fun createRoom() {
-        val requestBody = Room.createRoom("sample");
-
-        val webClient = WebClient.create()
-        val response =
-            webClient
-                .post()
-                .uri("${URI}/room")
-                .bodyValue(requestBody)
-                .retrieve()
-                .toEntity(Void::class.java)
-
-        response.subscribe { res: ResponseEntity<Void> ->
-            println("response status: ${res.statusCode}" )
-            println("Header Location: ${res.headers["Location"]}" )
-        }
+//        val requestBody = Room.createRoom("sample");
+//
+//        val webClient = WebClient.create()
+//        val response =
+//            webClient
+//                .post()
+//                .uri("${URI}/room")
+//                .bodyValue(requestBody)
+//                .retrieve()
+//                .toEntity(Void::class.java)
+//
+//        response.subscribe { res: ResponseEntity<Void> ->
+//            println("response status: ${res.statusCode}" )
+//            println("Header Location: ${res.headers["Location"]}" )
+//        }
     }
 
     private fun getRooms(){
@@ -77,20 +77,20 @@ class ChatWebClient {
     }
 
     private fun createChat(){
-        val chat : Chat = Chat(ROOM_ID , "test")
-
-        val webClient = WebClient.create()
-        val response =
-            webClient
-                .post()
-                .uri("${URI}/chats")
-                .bodyValue(chat)
-                .retrieve()
-                .toEntity(Void::class.java)
-
-        response.subscribe{ res : ResponseEntity<Void> ->
-            println("Create Chat : " + res.statusCode)
-        }
+//        val chat : Chat = Chat(ROOM_ID , "test")
+//
+//        val webClient = WebClient.create()
+//        val response =
+//            webClient
+//                .post()
+//                .uri("${URI}/chats")
+//                .bodyValue(chat)
+//                .retrieve()
+//                .toEntity(Void::class.java)
+//
+//        response.subscribe{ res : ResponseEntity<Void> ->
+//            println("Create Chat : " + res.statusCode)
+//        }
 
     }
 

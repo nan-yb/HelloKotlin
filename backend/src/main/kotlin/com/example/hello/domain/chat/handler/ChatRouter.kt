@@ -18,21 +18,6 @@ class ChatRouter {
         return RouterFunctions.route()
             .POST("/chats", handler::createChats)
             .GET("/chats/{room-id}", handler::findChatsByRoomId)
-//            .GET("/chats/test/exampleWebClient01") { serverRequest: ServerRequest? ->
-//                handler.exampleWebClient01(
-//                    serverRequest
-//                )
-//            }
-//            .GET("/books/test/exampleWebClient02") { serverRequest: ServerRequest? ->
-//                handler.exampleWebClient02(
-//                    serverRequest
-//                )
-//            }
-//            .GET("/books/test/exampleWebClient03") { serverRequest: ServerRequest? ->
-//                handler.exampleWebClient03(
-//                    serverRequest
-//                )
-//            }
             .build()
     }
 
@@ -50,7 +35,7 @@ class ChatRouter {
     fun routeUser(handler : UserHandler) : RouterFunction<*> {
         return RouterFunctions.route()
             .GET("/user/{user-id}" , handler::getUser )
-            .POST("/user" , handler::createUser )
+            .POST("/user" , handler::joinUser )
             .build()
     }
 }

@@ -14,7 +14,7 @@ class ChatDTO {
     @Getter
     class Chat {
 //        val _id: @NotBlank ObjectId? = null
-//        var senderId: @NotBlank Number = 0
+        var senderId: @NotBlank String? = null
         val roomId: @NotBlank String? = null
         val msg: @NotBlank String? = null
         val isRead: @NotBlank Boolean = false
@@ -47,8 +47,9 @@ class ChatDTO {
     }
 
     class User {
+        val _id : @NotBlank ObjectId? = null
         val userId : @NotBlank String = ""
         val userName : @NotBlank  String = ""
-
+        val createdAt : @NotBlank LocalDateTime = LocalDateTime.now()
     }
 }

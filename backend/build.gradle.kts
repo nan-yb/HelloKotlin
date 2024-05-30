@@ -23,6 +23,7 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-validation")
     implementation ("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation ("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+    implementation ("org.springframework.boot:spring-boot-starter-data-mongodb")
     compileOnly ("org.projectlombok:lombok")
     annotationProcessor ("org.projectlombok:lombok")
     testImplementation ("org.springframework.boot:spring-boot-starter-test")

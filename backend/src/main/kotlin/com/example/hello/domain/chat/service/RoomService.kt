@@ -3,6 +3,7 @@ package com.example.hello.domain.chat.service
 import com.example.hello.domain.chat.dto.ChatDTO
 import com.example.hello.domain.chat.dto.RoomResponseDTO
 import com.example.hello.domain.chat.entity.Room
+import com.example.hello.domain.chat.repository.RoomRepository
 import com.mongodb.client.result.UpdateResult
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,24 +12,24 @@ import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Update
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import org.springframework.data.mongodb.repository.Tailable
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.time.LocalDateTime
 
 
 @Service
 class RoomService @Autowired constructor(
-    val mongoTemplate: ReactiveMongoTemplate
+    val mongoTemplate: ReactiveMongoTemplate,
+    val roomRepository: RoomRepository
 ){
 
     fun findAllList() : Flux<RoomResponseDTO> {
-        return mongoTemplate.find(
-            Query.query(
-                Criteria.where("_id").exists(true)
-            )
-            .with(Sort.by(Sort.Direction.DESC, "updatedAt")), RoomResponseDTO::class.java , "room"
-        )
+        return roomRepository.findAllByPostId(0).flatMap {
+            mapper -> Flux.just(RoomResponseDTO.of(mapper))
+        }
     }
 
     /**채팅방 목록 마지막 대화 순서대로 불러오기 */
@@ -36,7 +37,6 @@ class RoomService @Autowired constructor(
         return mongoTemplate.find(
             Query.query(
                 Criteria.where("users.userId").`is`(userId)
-                    .and("users.isAttendance").`is`(true)
             )
                 .with(Sort.by(Sort.Direction.DESC, "updatedAt")), RoomResponseDTO::class.java , "room"
         )

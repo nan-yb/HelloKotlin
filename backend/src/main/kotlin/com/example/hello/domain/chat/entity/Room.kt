@@ -1,6 +1,7 @@
 package com.example.hello.domain.chat.entity
 
 import com.example.hello.domain.chat.dto.ChatDTO
+import com.example.hello.domain.chat.dto.RoomResponseDTO
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
@@ -20,13 +21,19 @@ data class Room(
 
 {
     companion object {
-        fun createRoom(title: String): Room {
-            val usr1 = User("test1" , "test1");
-            val usr2 = User("test2" , "test2");
-            val list : List<User> = listOf(usr1 , usr2);
-            val room = Room(null, title, 0, false, list, LocalDateTime.now(), LocalDateTime.now());
+        fun createRoom(title: String , users :List<User>): Room {
+            val room = Room(null, title, 0, false, users, LocalDateTime.now(), LocalDateTime.now());
             return room
         }
+
+        fun fromEntity(room : ChatDTO.Room ) : Room{
+            val users : List<User> = room.users!!.stream().map {
+                user -> User.fromEntity(user);
+            }.toList();
+
+            return Room(null , room.title , 0 , false , users , LocalDateTime.now() , LocalDateTime.now())
+        }
+
     }
 
 }

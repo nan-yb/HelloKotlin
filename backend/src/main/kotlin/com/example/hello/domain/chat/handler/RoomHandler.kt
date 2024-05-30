@@ -2,8 +2,10 @@ package com.example.hello.domain.chat.handler
 
 import com.example.hello.domain.chat.dto.ChatDTO
 import com.example.hello.domain.chat.dto.RoomResponseDTO
+import com.example.hello.domain.chat.entity.Chat
 import com.example.hello.domain.chat.entity.Room
 import com.example.hello.domain.chat.service.RoomService
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
@@ -19,13 +21,17 @@ class RoomHandler(
 
     fun createRooms(request: ServerRequest): Mono<ServerResponse> {
         return request.bodyToMono(ChatDTO.Room::class.java) //                .doOnNext(post -> validator.validate(post))
-            .flatMap { room: ChatDTO.Room -> ServerResponse.ok().body(roomService.createChatRoom(Room.createRoom(room.title!!))) }
-    }
-
+            .flatMap { room: ChatDTO.Room ->
+                ServerResponse.ok().body(
+                    roomService.createChatRoom(Room.fromEntity(room))
+                )
+            }
+        }
 
     fun getAllRooms(request: ServerRequest): Mono<ServerResponse> {
-        val rooms : Flux<RoomResponseDTO> = roomService.findAllList();
-        return ServerResponse.ok().body(rooms);
+        return ServerResponse.ok()
+            .contentType(MediaType.TEXT_EVENT_STREAM)
+            .body(roomService.findAllList());
     }
 
     fun getRoomsByUserId(request: ServerRequest): Mono<ServerResponse> {

@@ -4,14 +4,22 @@ import RoomContainer from './container/RoomContainer'
 
 import { Route, Routes } from 'react-router-dom';
 
+import { UserContext } from "./context/UserContext";
+import { useState } from 'react';
+
 function App() {
+
+  const [user , setUser] = useState();
+
   return (
     <>
-      <Routes>
-        <Route path="/" element={<HomeContainer/>} />
-        <Route path="/room" element={<RoomContainer/>} />
-        <Route path="/chat" element={<ChatContainer/>} />
-      </Routes>
+      <UserContext.Provider value={{ user, setUser }}>
+        <Routes>
+          <Route path="/" element={<HomeContainer/>} />
+          <Route path="/room" element={<RoomContainer/>} />
+          <Route path="/chat" element={<ChatContainer/>} />
+        </Routes>
+      </UserContext.Provider>
     </>
   )
 }

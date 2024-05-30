@@ -29,10 +29,6 @@ class ChatService @Autowired constructor(
     /**채팅 내역 불러오기 */
     fun findChatsByRoomId(roomId: ObjectId): Flux<Chat> {
         return chatRepository.findChatsByRoomId(roomId);
-//        val chatList : Flux<Chat> = mongoTemplate.find(
-//            Query.query(Criteria.where("roomId").`is`(roomId))
-//                .with(Sort.by(Sort.Direction.ASC, "createdAt")), Chat::class.java
-//        )
     }
 
     /**채팅 전송 */
