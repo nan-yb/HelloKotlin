@@ -15,6 +15,7 @@ class ChatDTO {
     class Chat {
 //        val _id: @NotBlank ObjectId? = null
         var senderId: @NotBlank String? = null
+        var senderName : @NotBlank String? = null
         val roomId: @NotBlank String? = null
         val msg: @NotBlank String? = null
         val isRead: @NotBlank Boolean = false

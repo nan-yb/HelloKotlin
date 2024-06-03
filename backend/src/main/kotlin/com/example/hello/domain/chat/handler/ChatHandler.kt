@@ -1,4 +1,4 @@
-package com.example.hello.domain.book.v10
+package com.example.hello.domain.chat.handler
 
 import com.example.hello.domain.chat.dto.ChatDTO
 import com.example.hello.domain.chat.entity.Chat
@@ -28,7 +28,7 @@ class ChatHandler(
         return request.bodyToMono(ChatDTO.Chat::class.java)
             .doOnNext{chat: ChatDTO.Chat -> println("${chat.msg.toString()} , ${chat.roomId.toString()}") }
             .flatMap { chat: ChatDTO.Chat ->
-                ServerResponse.ok().body(chatService.createChat(Chat.createChat(chat.msg!! , chat.roomId!! , chat.senderId!!)))
+                ServerResponse.ok().body(chatService.createChat(Chat.createChat(chat.msg!! , chat.roomId!! , chat.senderId!! , chat.senderName!!)))
              }
     }
 

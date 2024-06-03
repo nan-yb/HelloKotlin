@@ -1,8 +1,6 @@
 package com.example.hello.domain.chat.handler
 
-import com.example.hello.domain.book.v10.ChatHandler
 import com.example.hello.domain.book.v10.UserHandler
-import com.example.hello.domain.chat.service.ChatService
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

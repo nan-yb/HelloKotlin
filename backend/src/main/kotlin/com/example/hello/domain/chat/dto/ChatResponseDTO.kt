@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 
 data class ChatResponseDTO (
     val id: String? ,
-    var senderId : Number ,
+    var users : Number ,
     var roomId: ObjectId? ,
     var msg: String? ,
     var isRead :Boolean ,

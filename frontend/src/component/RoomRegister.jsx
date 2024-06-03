@@ -1,3 +1,4 @@
+import { Button, Input } from "@mui/material";
 import { useState } from "react";
 
 const divStyle = {
@@ -11,7 +12,7 @@ const divStyle = {
 
 const RoomRegister = ({createRoom}) =>{
 
-  const [title , setTitle] = useState();
+  const [title , setTitle] = useState('');
 
   const onChange= (e)=> {
     const value = e.target.value
@@ -24,8 +25,8 @@ const RoomRegister = ({createRoom}) =>{
   
   return (
     <div style={divStyle}>
-      <input value={title} onChange={onChange}></input>
-      <button onClick={onClick}>만들기</button>
+      <Input value={title} onChange={onChange}/>
+      <Button variant="contained" onClick={onClick}>만들기</Button>
     </div>
   )
 }

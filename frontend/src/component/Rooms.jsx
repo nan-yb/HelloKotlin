@@ -1,23 +1,17 @@
+import { Button } from "@mui/material";
 
 const Rooms = ({rooms , onClickJoinButton}) => {
   return (
     <div>
-      {rooms.map((i) => {
+      {rooms.map((i , index) => {
         return (
-          <div key={i._id.timestamp}  style={{display : 'flex' , marginTop : '0.5em'}}>
-            <div style={{marginRight : '1em'}}>
+          <div key={index}  style={{display : 'flex' , marginTop : '0.5em'}}>
+            <div style={{marginRight : '1em' , width : '200px'}}>
               {i.title} 
             </div>
-            {/* {
-              i.users.map((j) => {
-                return <span style={{marginLeft:'1em'}}>
-                  {j.userId}
-                </span>
-              })
-            } */}
-            <button onClick={(e)=>{onClickJoinButton(e , i._id)}}>
+            <Button variant="contained"  onClick={(e)=>{onClickJoinButton(e , i._id)}}>
               입장
-            </button>
+            </Button>
           </div>
         )
       })}

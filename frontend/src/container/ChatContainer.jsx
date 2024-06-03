@@ -1,8 +1,9 @@
-import { useSearchParams } from "react-router-dom";
-import Chat from "../component/Chat";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { fetchApi } from "../utils/fetchUtils";
-import { useContext, useEffect, useRef, useState } from "react";
-import { UserContext } from "../context/UserContext";
+import Chats from "../component/Chats";
+import { Box, Button, Container, Input } from "@mui/material";
 
 const chatStyle = {
   margin: "auto",
@@ -23,11 +24,13 @@ const chatInputStyle = {
 const ChatContainer = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [inputValue, setInputValue] = useState();
-  const [isStreaming, setIsStreaming] = useState(false);
+  const navigate = useNavigate();
   const chatDiv = useRef();
   const roomId = searchParams.get("roomId");
-  
-  const { user , setUser } = useContext(UserContext);
+
+  const user = useSelector((store) => store.user);
+
+  const [chat, setChat] = useState([]);
 
   useEffect(() => {
     const eventSource = new EventSource(
@@ -36,7 +39,7 @@ const ChatContainer = () => {
     eventSource.addEventListener("message", (event) => {
       const { data } = event;
       const chat = JSON.parse(data);
-      createHtml(chat);
+      setChat((prev) => [...prev, chat]);
     });
 
     eventSource.onerror = () => {
@@ -49,14 +52,6 @@ const ChatContainer = () => {
     };
   }, []);
 
-  const createHtml = (chat) => {
-    const tmp = document.createElement("div");
-    tmp.innerHTML = `
-      <span>${chat.senderId} : ${chat.msg}</span>
-    `;
-    chatDiv.current.append(tmp);
-  };
-
   const onChange = (e) => {
     if (e.target.value) {
       setInputValue(e.target.value);
@@ -64,8 +59,15 @@ const ChatContainer = () => {
   };
 
   const onClick = async () => {
+    if (!user._id) navigate("/");
+
+    if (!inputValue) {
+      return alert("메시지 입력");
+    }
+
     const data = {
-      senderId : user._id ,
+      senderId: user._id,
+      senderName: user.userName,
       roomId,
       msg: inputValue,
       // senderId : user.
@@ -80,14 +82,28 @@ const ChatContainer = () => {
 
   return (
     <div>
-      <div style={chatStyle} ref={chatDiv}>
-        {/*  */}
-      </div>
+      <Container>
+        <Box
+          height={500}
+          width={"100%"}
+          my={4}
+          display="flex"
+          alignItems="center"
+          gap={4}
+          p={2}
+          sx={{ border: "2px solid grey" }}
+          overflow={true}
+        >
+          <Chats chats={chat} />
+        </Box>
 
-      <div style={chatInputStyle}>
-        <input onChange={onChange} value={inputValue} />
-        <button onClick={onClick}>전송</button>
-      </div>
+        <div style={chatInputStyle}>
+          <Input onChange={onChange} value={inputValue} />
+          <Button variant="contained" onClick={onClick}>
+            전송
+          </Button>
+        </div>
+      </Container>
     </div>
   );
 };
